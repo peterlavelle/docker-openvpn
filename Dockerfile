@@ -1,14 +1,17 @@
 # Original credit: https://github.com/jpetazzo/dockvpn
 
-# Smallest base image
-FROM alpine:3.4
+#Dockerfile for building openvpn on a raspberry pi
 
-MAINTAINER Kyle Manna <kyle@kylemanna.com>
+# Smallest base image
+FROM hypriot/rpi-alpine-scratch
+
+MAINTAINER Peter Lavelle <peter@solderintheveins.co.uk>
 
 RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
     echo "http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
-    apk add --update openvpn iptables bash easy-rsa openvpn-auth-pam google-authenticator pamtester && \
+    apk add --update openvpn iptables bash easy-rsa openvpn-auth-pam google-authenticator pamtester openssl && \
     ln -s /usr/share/easy-rsa/easyrsa /usr/local/bin && \
+    apk upgrade && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
 # Needed by scripts
